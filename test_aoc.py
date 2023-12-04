@@ -3,7 +3,7 @@ from day1 import (
     compute_sum_of_all_calibration_values,
 )
 from day2 import Game, validate, validate2
-from day3 import sum_nums_adjacent_to_symbol
+from day3 import sum_nums_adjacent_to_symbol, compute_sum_gear_ratios
 
 
 def test_day1_part1():
@@ -59,3 +59,10 @@ def test_day3_part1():
         assert sum_nums_adjacent_to_symbol(f.read()) == 4361
     with open("input/day3.txt") as f:
         assert sum_nums_adjacent_to_symbol(f.read()) == 538046
+
+
+def test_day3_part2():
+    with open("input/day3_tiny.txt") as f:
+        assert compute_sum_gear_ratios(f.read()) == 467835
+    with open("input/day3.txt") as f:
+        assert compute_sum_gear_ratios(f.read()) == 81709807
