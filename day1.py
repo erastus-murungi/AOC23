@@ -54,16 +54,9 @@ def first_true(iterable: Iterable, default=False, pred=None):
 
 
 def compute_sum_of_all_calibration_values(calibration_document: str) -> int:
-    """
-    :param calibration_document: A string containing the calibration document
-    :return: The sum of all the calibration values
-
-    >>> compute_sum_of_all_calibration_values("1abc2\\npqr3stu8vwx\\na1b2c3d4e5f\\ntreb7uchet")
-    142
-    """
     return sum(
         int(
-            f"{first_true(line, pred=str.isdigit)}{first_true(reversed(line), pred=str.isdigit)}"
+            f"{first_true(line, pred=str.isdigit)}{first_true(line[::-1], pred=str.isdigit)}"
         )
         for line in calibration_document.splitlines()
     )
@@ -97,29 +90,26 @@ def compute_sum_of_all_calibration_values_str_nums(calibration_document: str) ->
     101
     """
 
-    def first_digit(input_str):
-        return next((char for char in input_str if char.isdigit()), None)
-
     cleaned_lines = []
     for line in calibration_document.splitlines():
-        cleaned_line = "".join(
-            STRING_NUMBERS.get(match.group(0), char)
-            for char in line
-            if (
-                match := re.match(
-                    r"(one|two|three|four|five|six|seven|eight|nine)", char
-                )
-            )
-        )
-        cleaned_lines.append(cleaned_line)
+        cleaned_line = []
+        for index, char in enumerate(line):
+            if re_match := re.match(
+                r"one|two|three|four|five|six|seven|eight|nine", line[index:]
+            ):
+                cleaned_line.append(STRING_NUMBERS.get(re_match.group(0)))
+            else:
+                cleaned_line.append(char)
+        cleaned_lines.append("".join(cleaned_line))
     return sum(
-        int(f"{first_digit(line)}{first_digit(line[::-1])}")
+        int(
+            f"{first_true(line, pred=str.isdigit)}{first_true(reversed(line), pred=str.isdigit)}"
+        )
         for line in cleaned_lines
-        if first_digit(line) and first_digit(line[::-1])
     )
 
 
 if __name__ == "__main__":
-    with open("day1.txt") as f:
+    with open("input/day1_tiny.txt") as f:
         _calibration_document = f.read()
-    print(compute_sum_of_all_calibration_values_str_nums(_calibration_document))
+    print(compute_sum_of_all_calibration_values(_calibration_document))
