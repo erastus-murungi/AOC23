@@ -3,6 +3,7 @@ from day1 import (
     compute_sum_of_all_calibration_values,
 )
 from day2 import Game, validate, validate2
+from day3 import sum_nums_adjacent_to_symbol
 
 
 def test_day1_part1():
@@ -33,16 +34,9 @@ def test_day1_part2():
     )
 
 
-game_str = """  Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
-                Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
-                Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red
-                Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red
-                Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green
-            """
-
-
 def test_day2_part1():
-    games = [Game.parse(game.strip()) for game in game_str.strip().splitlines() if game]
+    with open("input/day2_tiny.txt") as f:
+        games = [Game.parse(game.strip()) for game in f.readlines() if game]
     assert validate(games) == 8
 
     with open("input/day2.txt") as f:
@@ -51,9 +45,17 @@ def test_day2_part1():
 
 
 def test_day2_part2():
-    games = [Game.parse(game.strip()) for game in game_str.strip().splitlines() if game]
+    with open("input/day2_tiny.txt") as f:
+        games = [Game.parse(game.strip()) for game in f.readlines() if game]
     assert validate2(games) == 2286
 
     with open("input/day2.txt") as f:
         games = [Game.parse(game.strip()) for game in f.readlines() if game]
     assert validate2(games) == 66016
+
+
+def test_day3_part1():
+    with open("input/day3_tiny.txt") as f:
+        assert sum_nums_adjacent_to_symbol(f.read()) == 4361
+    with open("input/day3.txt") as f:
+        assert sum_nums_adjacent_to_symbol(f.read()) == 538046

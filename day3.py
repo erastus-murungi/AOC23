@@ -3,7 +3,7 @@ def is_symbol(char: str):
     return not char.isdigit() and char != "."
 
 
-def is_adjacent_to_symbol(
+def sum_of_part_numbers_adjacent_to_symbols(
     table: list[str],
     row_index: int,
     col_index: int,
@@ -74,11 +74,12 @@ def sum_nums_adjacent_to_symbol(s: str):
             char = line[col]
             if char.isdigit():
                 number = parse_number(line[col:])
-                if is_adjacent_to_symbol(
-                    lines, row, col, len(number), num_rows, num_cols
+                span = len(number)
+                if sum_of_part_numbers_adjacent_to_symbols(
+                    lines, row, col, span, num_rows, num_cols
                 ):
                     sum_nums += int(number)
-                col = col + len(number)
+                col = col + span
             else:
                 col += 1
     return sum_nums
