@@ -120,6 +120,6 @@ def compute_sum_of_all_calibration_values_str_nums(calibration_document: str) ->
 
 
 if __name__ == "__main__":
-    with open("input.txt") as f:
+    with open("day1.txt") as f:
         _calibration_document = f.read()
     print(compute_sum_of_all_calibration_values_str_nums(_calibration_document))
