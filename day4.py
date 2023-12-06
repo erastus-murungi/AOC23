@@ -112,6 +112,7 @@ def compute_num_scratchcards_won(cards: str) -> int:
     while work_list:
         card_index = work_list.popleft()
         card_value = card_values[card_index]
+        print(f"Card {card_index} has value {card_value}")
 
         work_list.extend(range(card_index + 1, card_index + 1 + card_value))
         num_scratchcards_won += 1
