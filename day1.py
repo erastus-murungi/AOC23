@@ -38,6 +38,8 @@ Consider your entire calibration document. What is the sum of all the calibratio
 import re
 from typing import Iterable
 
+from utils import AOCChallenge
+
 
 def first_true(iterable: Iterable, default=False, pred=None):
     """Returns the first true value in the iterable.
@@ -53,13 +55,15 @@ def first_true(iterable: Iterable, default=False, pred=None):
     return next(filter(pred, iterable), default)
 
 
-def compute_sum_of_all_calibration_values(calibration_document: str) -> int:
-    return sum(
-        int(
-            f"{first_true(line, pred=str.isdigit)}{first_true(line[::-1], pred=str.isdigit)}"
+def part1(filename: str) -> int:
+    with open(filename) as f:
+        calibration_document = f.read().strip()
+        return sum(
+            int(
+                f"{first_true(line, pred=str.isdigit)}{first_true(reversed(line), pred=str.isdigit)}"
+            )
+            for line in calibration_document.splitlines()
         )
-        for line in calibration_document.splitlines()
-    )
 
 
 # --- Part Two ---
@@ -81,35 +85,27 @@ STRING_NUMBERS = {
 }
 
 
-def compute_sum_of_all_calibration_values_str_nums(calibration_document: str) -> int:
-    """
-    :param calibration_document: A string containing the calibration document
-    :return: The sum of all the calibration values
-
-    >>> compute_sum_of_all_calibration_values_str_nums("1abc2\\npqr3stu8vwx\\na1b2c3d4e5f\\ntreb7uchet")
-    101
-    """
-
-    cleaned_lines = []
-    for line in calibration_document.splitlines():
-        cleaned_line = []
-        for index, char in enumerate(line):
-            if re_match := re.match(
-                r"one|two|three|four|five|six|seven|eight|nine", line[index:]
-            ):
-                cleaned_line.append(STRING_NUMBERS.get(re_match.group(0)))
-            else:
-                cleaned_line.append(char)
-        cleaned_lines.append("".join(cleaned_line))
-    return sum(
-        int(
-            f"{first_true(line, pred=str.isdigit)}{first_true(reversed(line), pred=str.isdigit)}"
+def part2(filename: str) -> int:
+    with open(filename) as f:
+        calibration_document = f.read().strip()
+        cleaned_lines = []
+        for line in calibration_document.splitlines():
+            cleaned_line = []
+            for index, char in enumerate(line):
+                if re_match := re.match(
+                    r"one|two|three|four|five|six|seven|eight|nine", line[index:]
+                ):
+                    cleaned_line.append(STRING_NUMBERS.get(re_match.group(0)))
+                else:
+                    cleaned_line.append(char)
+            cleaned_lines.append("".join(cleaned_line))
+        return sum(
+            int(
+                f"{first_true(line, pred=str.isdigit)}{first_true(reversed(line), pred=str.isdigit)}"
+            )
+            for line in cleaned_lines
         )
-        for line in cleaned_lines
-    )
 
 
-if __name__ == "__main__":
-    with open("input/day1_tiny.txt") as f:
-        _calibration_document = f.read()
-    print(compute_sum_of_all_calibration_values(_calibration_document))
+day1 = AOCChallenge(1, part1, part2)
+__all__ = [day1]

@@ -1,7 +1,4 @@
-from day1 import (
-    compute_sum_of_all_calibration_values_str_nums,
-    compute_sum_of_all_calibration_values,
-)
+from day1 import day1
 from day2 import day2
 from day3 import day3
 from day4 import day4
@@ -11,27 +8,15 @@ from day7 import day7
 from day8 import day8
 
 
-def test_day1_part1():
-    with open("input/day1_tiny.txt") as f:
-        calibration_document = f.read()
-    assert compute_sum_of_all_calibration_values(calibration_document) == 142
+def test_day1():
+    assert day1.part1("input/day1_tiny.txt") == 142
+    assert day1.part2("input/day1_tiny2.txt") == 281
 
-    with open("input/day1.txt") as f:
-        calibration_document = f.read()
-    assert compute_sum_of_all_calibration_values(calibration_document) == 54708
+    assert day1.part1("input/day1.txt") == 54708
+    assert day1.part2("input/day1.txt") == 54087
 
 
-def test_day1_part2():
-    with open("input/day1_tiny.txt") as f:
-        calibration_document = f.read()
-    assert compute_sum_of_all_calibration_values_str_nums(calibration_document) == 281
-
-    with open("input/day1.txt") as f:
-        calibration_document = f.read()
-    assert compute_sum_of_all_calibration_values_str_nums(calibration_document) == 54087
-
-
-def test_day2_part1():
+def test_day2():
     assert day2.part1("input/day2_tiny.txt") == 8
     assert day2.part2("input/day2_tiny.txt") == 2286
 
