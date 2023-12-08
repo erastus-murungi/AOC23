@@ -1,6 +1,56 @@
-# dimensions num_rows, num_cols
+"""
+--- Day 3: Gear Ratios ---
+You and the Elf eventually reach a gondola lift station;
+he says the gondola lift will take you up to the water source, but this is as far as he can bring you. You go inside.
+
+It doesn't take long to find the gondolas, but there seems to be a problem: they're not moving.
+
+"Aaah!"
+
+You turn around to see a slightly-greasy Elf with a wrench and a look of surprise.
+"Sorry, I wasn't expecting anyone!
+The gondola lift isn't working right now; it'll still be a while before I can fix it." You offer to help.
+
+The engineer explains that an engine part seems to be missing from the engine,
+but nobody can figure out which one. If you can add up all the part numbers in the engine schematic,
+it should be easy to work out which part is missing.
+
+The engine schematic (your puzzle input) consists of a visual representation of the engine.
+There are lots of numbers and symbols you don't really understand, but apparently any number adjacent to a symbol,
+even diagonally, is a "part number" and should be included in your sum. (Periods (.) do not count as a symbol.)
+
+Here is an example engine schematic:
+
+467..114..
+...*......
+..35..633.
+......#...
+617*......
+.....+.58.
+..592.....
+......755.
+...$.*....
+.664.598..
+In this schematic, two numbers are not part numbers because they are not adjacent to a symbol:
+ 114 (top right) and 58 (middle right). Every other number is adjacent to a symbol and so is a part number;
+ their sum is 4361.
+
+Of course, the actual engine schematic is much larger.
+
+ What is the sum of all of the part numbers in the engine schematic?
+"""
+from utils import AOCChallenge
+
+
 def is_symbol(char: str):
     return not char.isdigit() and char != "."
+
+
+def parse_schematic(data: str):
+    lines = data.strip().splitlines()
+    num_rows = len(lines)
+    num_cols = len(lines[0])
+    return lines, (num_rows, num_cols)
 
 
 def sum_of_part_numbers_adjacent_to_symbols(
@@ -81,27 +131,25 @@ def parse_number_around(s: str, index: int) -> tuple[str, tuple[int, int]]:
     return "".join(digits), (start_index, start_index + len(digits))
 
 
-def sum_nums_adjacent_to_symbol(s: str):
-    s = s.strip()
-    sum_nums = 0
-    lines = s.splitlines()
-    num_rows = len(lines)
-    num_cols = len(lines[0])
-    for row, line in enumerate(lines):
-        col = 0
-        while col < len(line):
-            char = line[col]
-            if char.isdigit():
-                number = parse_number(line[col:])
-                span = len(number)
-                if sum_of_part_numbers_adjacent_to_symbols(
-                    lines, row, col, span, num_rows, num_cols
-                ):
-                    sum_nums += int(number)
-                col = col + span
-            else:
-                col += 1
-    return sum_nums
+def part1(filename: str):
+    with open(filename) as f:
+        sum_nums = 0
+        lines, (num_rows, num_cols) = parse_schematic(f.read())
+        for row, line in enumerate(lines):
+            col = 0
+            while col < len(line):
+                char = line[col]
+                if char.isdigit():
+                    number = parse_number(line[col:])
+                    span = len(number)
+                    if sum_of_part_numbers_adjacent_to_symbols(
+                        lines, row, col, span, num_rows, num_cols
+                    ):
+                        sum_nums += int(number)
+                    col = col + span
+                else:
+                    col += 1
+        return sum_nums
 
 
 # --- Part Two ---
@@ -192,20 +240,17 @@ def compute_gear_ratio(
         return 0
 
 
-def compute_sum_gear_ratios(s: str):
-    s = s.strip()
-    sum_gear_ratios = 0
-    lines = s.splitlines()
-    num_rows = len(lines)
-    num_cols = len(lines[0])
-    for row, line in enumerate(lines):
-        for col, char in enumerate(line):
-            if char == "*":
-                gear_ratio = compute_gear_ratio(lines, row, col, num_rows, num_cols)
-                sum_gear_ratios += gear_ratio
-    return sum_gear_ratios
+def part2(filename: str) -> int:
+    with open(filename) as f:
+        sum_gear_ratios = 0
+        lines, (num_rows, num_cols) = parse_schematic(f.read())
+        for row, line in enumerate(lines):
+            for col, char in enumerate(line):
+                if char == "*":
+                    gear_ratio = compute_gear_ratio(lines, row, col, num_rows, num_cols)
+                    sum_gear_ratios += gear_ratio
+        return sum_gear_ratios
 
 
-if __name__ == "__main__":
-    with open("input/day3.txt") as f:
-        print(compute_sum_gear_ratios(f.read()))
+day3 = AOCChallenge(3, part1, part2)
+__all__ = [day3]
