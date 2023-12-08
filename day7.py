@@ -264,6 +264,13 @@ def compute_total_winnings(filename: str, kind_compute_function):
         return sum_prod
 
 
+def part1(filename: str) -> int:
+    global CARDS, strength
+    CARDS = "A, K, Q, J, T, 9, 8, 7, 6, 5, 4, 3, 2".split(", ")
+    strength = {card: len(CARDS) - index for index, card in enumerate(CARDS, start=1)}
+    return compute_total_winnings(filename, compute_hand_kind)
+
+
 # --- Part Two ---
 # To make things a little more interesting, the Elf introduces one additional rule.
 # Now, J cards are jokers - wildcards that can act like whatever card would make the hand the strongest type possible.
@@ -313,13 +320,6 @@ def compute_hand_kind_with_joker(hand: Hand) -> HandKind:
     card = get_strongest_most_common_card(hand)
     hand = hand.replace_joker(card)
     return compute_hand_kind_with_joker(hand)
-
-
-def part1(filename: str) -> int:
-    global CARDS, strength
-    CARDS = "A, K, Q, J, T, 9, 8, 7, 6, 5, 4, 3, 2".split(", ")
-    strength = {card: len(CARDS) - index for index, card in enumerate(CARDS, start=1)}
-    return compute_total_winnings(filename, compute_hand_kind)
 
 
 def part2(filename: str) -> int:
