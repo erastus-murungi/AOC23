@@ -4,10 +4,11 @@ from day1 import (
 )
 from day2 import Game, validate, validate2
 from day3 import sum_nums_adjacent_to_symbol, compute_sum_gear_ratios
-from day4 import compute_total_card_value, compute_num_scratchcards_won
+from day4 import day4
 from day5 import day5
 from day6 import day6
 from day7 import day7
+from day8 import day8
 
 
 def test_day1_part1():
@@ -66,24 +67,12 @@ def test_day3_part2():
         assert compute_sum_gear_ratios(f.read()) == 81709807
 
 
-def test_day4_part1():
-    with open("input/day4_tiny.txt") as f:
-        cards = f.read()
-    assert compute_total_card_value(cards) == 13
+def test_day4():
+    assert day4.part1("input/day4_tiny.txt") == 13
+    assert day4.part2("input/day4_tiny.txt") == 30
 
-    with open("input/day4.txt") as f:
-        cards = f.read()
-    assert compute_total_card_value(cards) == 24160
-
-
-def test_day4_part2():
-    with open("input/day4_tiny.txt") as f:
-        cards = f.read()
-    assert compute_num_scratchcards_won(cards) == 30
-
-    with open("input/day4.txt") as f:
-        cards = f.read()
-    assert compute_num_scratchcards_won(cards) == 5659035
+    assert day4.part1("input/day4.txt") == 24160
+    assert day4.part2("input/day4.txt") == 5659035
 
 
 def test_day5():
@@ -108,3 +97,11 @@ def test_day7():
 
     assert day7.part1("input/day7.txt") == 251216224
     assert day7.part2("input/day7.txt") == 250825971
+
+
+def test_day8():
+    assert day8.part1("input/day8_tiny.txt") == 2
+    assert day8.part2("input/day8_tiny2.txt") == 6
+
+    assert day8.part1("input/day8.txt") == 13019
+    assert day8.part2("input/day8.txt") == 13524038372771
