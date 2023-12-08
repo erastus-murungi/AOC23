@@ -2,7 +2,7 @@ from day1 import (
     compute_sum_of_all_calibration_values_str_nums,
     compute_sum_of_all_calibration_values,
 )
-from day2 import Game, validate, validate2
+from day2 import day2
 from day3 import day3
 from day4 import day4
 from day5 import day5
@@ -32,23 +32,11 @@ def test_day1_part2():
 
 
 def test_day2_part1():
-    with open("input/day2_tiny.txt") as f:
-        games = [Game.parse(game.strip()) for game in f.readlines() if game]
-    assert validate(games) == 8
+    assert day2.part1("input/day2_tiny.txt") == 8
+    assert day2.part2("input/day2_tiny.txt") == 2286
 
-    with open("input/day2.txt") as f:
-        games = [Game.parse(game.strip()) for game in f.readlines() if game]
-    assert validate(games) == 2541
-
-
-def test_day2_part2():
-    with open("input/day2_tiny.txt") as f:
-        games = [Game.parse(game.strip()) for game in f.readlines() if game]
-    assert validate2(games) == 2286
-
-    with open("input/day2.txt") as f:
-        games = [Game.parse(game.strip()) for game in f.readlines() if game]
-    assert validate2(games) == 66016
+    assert day2.part1("input/day2.txt") == 2541
+    assert day2.part2("input/day2.txt") == 66016
 
 
 def test_day3():

@@ -53,7 +53,9 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 from enum import Enum
-from pprint import pprint
+from typing import Final
+
+from utils import AOCChallenge
 
 
 class ColorChoice(Enum):
@@ -103,36 +105,36 @@ class Game:
         return Game(int(re.findall(r"(\d+)", game_id_str)[0]), game_rounds)
 
 
-def validate(
-    list_games: list[Game],
-    max_red_cubes: int = 12,
-    max_green_cubes: int = 13,
-    max_blue_cubes: int = 14,
-) -> int:
-    sum_games_ids = 0
-    for game in list_games:
-        game_valid = True
-        for game_round in game.game_rounds:
-            red_cubes = 0
-            green_cubes = 0
-            blue_cubes = 0
-            for color_pick in game_round.picks:
-                if color_pick.color == ColorChoice.red:
-                    red_cubes += color_pick.quantity
-                elif color_pick.color == ColorChoice.green:
-                    green_cubes += color_pick.quantity
-                elif color_pick.color == ColorChoice.blue:
-                    blue_cubes += color_pick.quantity
-            if (
-                red_cubes > max_red_cubes
-                or green_cubes > max_green_cubes
-                or blue_cubes > max_blue_cubes
-            ):
-                game_valid = False
-                break
-        if game_valid:
-            sum_games_ids += game.game_id
-    return sum_games_ids
+MAX_RED_CUBES: Final[int] = 12
+MAX_GREEN_CUBES: Final[int] = 13
+MAX_BLUE_CUBES: Final[int] = 14
+
+
+def part1(filename: str):
+    with open(filename) as f:
+        games = [Game.parse(game.strip()) for game in f.readlines() if game]
+        sum_games_ids = 0
+        for game in games:
+            game_valid = True
+            for game_round in game.game_rounds:
+                red_cubes, green_cubes, blue_cubes = 0, 0, 0
+                for color_pick in game_round.picks:
+                    if color_pick.color == ColorChoice.red:
+                        red_cubes += color_pick.quantity
+                    elif color_pick.color == ColorChoice.green:
+                        green_cubes += color_pick.quantity
+                    elif color_pick.color == ColorChoice.blue:
+                        blue_cubes += color_pick.quantity
+                if (
+                    red_cubes > MAX_RED_CUBES
+                    or green_cubes > MAX_GREEN_CUBES
+                    or blue_cubes > MAX_BLUE_CUBES
+                ):
+                    game_valid = False
+                    break
+            if game_valid:
+                sum_games_ids += game.game_id
+        return sum_games_ids
 
 
 # --- Part Two ---
@@ -163,51 +165,25 @@ def validate(
 # For each game, find the minimum set of cubes that must have been present. What is the sum of the power of these sets?
 
 
-@dataclass
-class Counts:
-    num_red: int = 0
-    num_green: int = 0
-    num_blue: int = 0
-
-
-def validate2(
-    list_games: list[Game],
+def part2(
+    filename: str,
 ) -> int:
-    sum_powers = 0
-    for game in list_games:
-        counts = Counts()
-        for game_round in game.game_rounds:
-            for color_pick in game_round.picks:
-                if color_pick.color == ColorChoice.red:
-                    counts.num_red = max(counts.num_red, color_pick.quantity)
-                elif color_pick.color == ColorChoice.green:
-                    counts.num_green = max(counts.num_green, color_pick.quantity)
-                elif color_pick.color == ColorChoice.blue:
-                    counts.num_blue = max(counts.num_blue, color_pick.quantity)
-        sum_powers += counts.num_red * counts.num_green * counts.num_blue
-    return sum_powers
-
-
-if __name__ == "__main__":
-    game_str = """  Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
-                    Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
-                    Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red
-                    Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red
-                    Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green
-                """
-    games = [Game.parse(game.strip()) for game in game_str.strip().splitlines() if game]
-    pprint(games)
-    pprint(
-        validate(
-            games,
-            max_red_cubes=12,
-            max_green_cubes=13,
-            max_blue_cubes=14,
-        )
-    )
-    pprint(validate2(games))
-
-    with open("input/day2.txt") as f:
+    with open(filename) as f:
         games = [Game.parse(game.strip()) for game in f.readlines() if game]
-    pprint(validate(games))
-    pprint(validate2(games))
+        sum_powers = 0
+        for game in games:
+            red_cubes, green_cubes, blue_cubes = 0, 0, 0
+            for game_round in game.game_rounds:
+                for color_pick in game_round.picks:
+                    if color_pick.color == ColorChoice.red:
+                        red_cubes = max(red_cubes, color_pick.quantity)
+                    elif color_pick.color == ColorChoice.green:
+                        green_cubes = max(green_cubes, color_pick.quantity)
+                    elif color_pick.color == ColorChoice.blue:
+                        blue_cubes = max(blue_cubes, color_pick.quantity)
+            sum_powers += red_cubes * green_cubes * blue_cubes
+        return sum_powers
+
+
+day2 = AOCChallenge(2, part1, part2)
+__all__ = [day2]
