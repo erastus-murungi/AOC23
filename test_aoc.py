@@ -5,6 +5,7 @@ from day1 import (
 from day2 import Game, validate, validate2
 from day3 import sum_nums_adjacent_to_symbol, compute_sum_gear_ratios
 from day4 import compute_total_card_value, compute_num_scratchcards_won
+from day7 import day7
 
 
 def test_day1_part1():
@@ -81,3 +82,11 @@ def test_day4_part2():
     with open("input/day4.txt") as f:
         cards = f.read()
     assert compute_num_scratchcards_won(cards) == 5659035
+
+
+def test_day7():
+    assert day7.part1("input/day7_tiny.txt") == 6440
+    assert day7.part2("input/day7_tiny.txt") == 5905
+
+    assert day7.part1("input/day7.txt") == 251216224
+    assert day7.part2("input/day7.txt") == 250825971

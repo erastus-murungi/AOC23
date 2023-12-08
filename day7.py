@@ -27,7 +27,8 @@ Because the journey will take a few days, she offers to teach you the game of Ca
  Camel Cards is sort of similar to poker except it's designed to be easier to play while riding a camel.
 
 In Camel Cards, you get a list of hands, and your goal is to order them based on the strength of each hand.
-A hand consists of five cards labeled one of A, K, Q, J, T, 9, 8, 7, 6, 5, 4, 3, or 2. The relative strength of each card follows this order, where A is the highest and 2 is the lowest.
+A hand consists of five cards labeled one of A, K, Q, J, T, 9, 8, 7, 6, 5, 4, 3, or 2.
+The relative strength of each card follows this order, where A is the highest and 2 is the lowest.
 
 Every hand is exactly one type. From strongest to weakest, they are:
 
@@ -58,7 +59,8 @@ second card in each hand. If they differ, the hand with the higher second card w
 continue with the third card in each hand, then the fourth, then the fifth.
 
 So, 33332 and 2AAAA are both four of a kind hands, but 33332 is stronger because its first card is stronger.
-Similarly, 77888 and 77788 are both a full house, but 77888 is stronger because its third card is stronger (and both hands have the same first and second card).
+Similarly, 77888 and 77788 are both a full house, but 77888 is stronger because its third card is stronger
+ (and both hands have the same first and second card).
 
 To play Camel Cards, you are given a list of hands and their corresponding bid (your puzzle input). For example:
 
@@ -94,9 +96,9 @@ from collections import Counter
 from dataclasses import dataclass
 from enum import IntEnum
 from operator import attrgetter
-from pprint import pprint
 from itertools import groupby
 
+from utils import AOCChallenge
 
 # can be modified depending on which part is being tested
 CARDS: list[str] = "A, K, Q, T, 9, 8, 7, 6, 5, 4, 3, 2, J".split(", ")
@@ -327,6 +329,5 @@ def part2(filename: str) -> int:
     return compute_total_winnings(filename, compute_hand_kind_with_joker)
 
 
-pprint(strength)
-if __name__ == "__main__":
-    print(part2("input/day7.txt"))
+day7 = AOCChallenge(7, part1, part2)
+__all__ = day7
