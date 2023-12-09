@@ -1,7 +1,7 @@
 from utils import AOCChallenge, extract_numbers
 
 
-def recurse_part1(history: list[int]) -> int:
+def recurse_part1(history: list[int] | tuple[int]) -> int:
     if all(num == 0 for num in history):
         return 0
     else:
@@ -9,7 +9,7 @@ def recurse_part1(history: list[int]) -> int:
         return history[-1] + val
 
 
-def recurse_part2(history: list[int]) -> int:
+def recurse_part2(history: list[int] | tuple[int]) -> int:
     if all(num == 0 for num in history):
         return 0
     else:
