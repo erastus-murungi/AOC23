@@ -10,5 +10,5 @@ class AOCChallenge[ReturnType]:
     part2: Callable[[str], ReturnType]
 
 
-def extract_numbers(s: str, syntax=re.compile(r"(\d+)")) -> tuple[int]:
+def extract_numbers(s: str, syntax=re.compile(r"-?\d+")) -> tuple[int]:
     return tuple(map(int, syntax.findall(s)))

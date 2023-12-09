@@ -6,6 +6,7 @@ from day5 import day5
 from day6 import day6
 from day7 import day7
 from day8 import day8
+from day9 import day9
 
 
 def test_day1():
@@ -70,3 +71,11 @@ def test_day8():
 
     assert day8.part1("input/day8.txt") == 13019
     assert day8.part2("input/day8.txt") == 13524038372771
+
+
+def test_day9():
+    assert day9.part1("input/day9_tiny.txt") == 114
+    assert day9.part2("input/day9_tiny.txt") == 2
+
+    assert day9.part1("input/day9.txt") == 1972648895
+    assert day9.part2("input/day9.txt") == 919

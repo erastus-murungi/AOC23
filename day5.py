@@ -17,7 +17,7 @@ You barely have time to agree to this request when he brings up another. "While 
 maybe you can help us with our food production problem. The latest Island Island Almanac just arrived
  and we're having trouble making sense of it."
 
-The almanac (your puzzle input) lists all of the seeds that need to be planted. It also lists what
+The almanac (your puzzle input) lists all the seeds that need to be planted. It also lists what
 type of soil to use with each kind of seed, what type of fertilizer to use with each kind of soil,
 what type of water to use with each kind of fertilizer, and so on. Every type of seed, soil,
 fertilizer and so on is identified with a number, but numbers are reused by each category - that is,
@@ -265,10 +265,10 @@ class MappingPipeline:
             seed, location = self._instance_compute_approximate_minimum(
                 granularity, to_consider
             )
-            print(
-                f"{seed=} -> {location=} with {granularity=} & {to_consider=}",
-                file=sys.stderr,
-            )
+            # print(
+            #     f"{seed=} -> {location=} with {granularity=} & {to_consider=}",
+            #     file=sys.stderr,
+            # )
             counters[seed][location] += 1
         return max((c.most_common()[0] for c in counters.values()), key=itemgetter(1))[0]  # type: ignore
 

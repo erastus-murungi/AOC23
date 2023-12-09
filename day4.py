@@ -57,19 +57,15 @@ from utils import AOCChallenge
 
 
 def parse_card(card: str) -> tuple[set[int], set[int]]:
-    card_number_str, numbers_str = card.split(":")
-    winning_numbers_str, my_numbers_str = numbers_str.split("|")
-    winning_numbers = set(map(int, winning_numbers_str.strip().split()))
-    my_numbers = set(map(int, my_numbers_str.strip().split()))
+    winning_numbers, my_numbers = [
+        set(map(int, nums.split())) for nums in card.split(":")[1].split("|")
+    ]
     return winning_numbers, my_numbers
 
 
 def compute_card_value(card: str) -> int:
-    winning_numbers, my_numbers = parse_card(card)
-    intersection_len = len(winning_numbers.intersection(my_numbers))
-    if intersection_len == 0:
-        return 0
-    return 2 ** (intersection_len - 1)
+    intersection_len = len(set.intersection(*parse_card(card)))
+    return 0 if intersection_len == 0 else 2 ** (intersection_len - 1)
 
 
 def part1(filename: str) -> int:
@@ -133,7 +129,7 @@ def part2(filename: str) -> int:
         while work_list:
             card_index = work_list.popleft()
             card_value = card_values[card_index]
-            print(f"Card {card_index} has value {card_value}", file=sys.stderr)
+            # print(f"Card {card_index} has value {card_value}", file=sys.stderr)
 
             work_list.extend(range(card_index + 1, card_index + 1 + card_value))
             num_scratchcards_won += 1
