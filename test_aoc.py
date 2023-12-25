@@ -1,4 +1,5 @@
 from day1 import day1
+from day11 import day11
 from day2 import day2
 from day3 import day3
 from day4 import day4
@@ -91,3 +92,11 @@ def test_day10():
 
     assert day10.part1("input/day10.txt") == 6846
     assert day10.part2("input/day10.txt") == 325
+
+
+def test_day11():
+    assert day11.part1("input/day11_tiny.txt") == 374
+    assert day11.part2("input/day11_tiny.txt") == 82000210
+
+    assert day11.part1("input/day11.txt") == 9623138
+    assert day11.part2("input/day11.txt") == 726820169514
